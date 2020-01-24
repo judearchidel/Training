@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
-import './App.css';
+import classes from './App.css';
 
 
 
@@ -58,6 +58,7 @@ class App extends Component {
     render() {
       
       let person = null;
+      let btnclass =[classes.Button]
       if(this.state.showpersons){
         person= (<div>{this.state.persons.map((per,index)=>{
           return  <Person
@@ -70,28 +71,24 @@ class App extends Component {
         })
       }
         </div>
-        
         )
-        // style.backgroundColor = 'red';
-        // style[':hover'] ={
-          // backgroundColor: 'salmon',
-         //  color: 'blue'
-         //}
+        btnclass.push(classes.Red);
+       
       }
 
-      let classes =[]
+      let clas=[]
       if(this.state.persons.length <=2){
-        classes.push('red');
+        clas.push('red');
       }
       if(this.state.persons.length <2){
-        classes.push('bold');
+        clas.push('bold');
       }
 
       return (
-        <div className="App">
+        <div className={classes.App}>
         <h1>Hi, React App</h1>
-        <p className={classes.join(" ")}>The conditional styling</p>
-        <button
+        <p>The conditional styling</p>
+        <button className={btnclass.join(" ")}
         onClick={this.toggleDivHandler.bind(this,"jovitta")}>Switch names</button>
        {person}
 
