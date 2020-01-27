@@ -1,27 +1,57 @@
-import React from 'react';
+import React ,{useEffect,useRef}from 'react';
 import classes from './Cockpit.css';
-const Cockpit = (props) => {
+
+
+
+const cockpit = (props) => {
+  const toglebtn = useRef(null);
+
+    useEffect(() => {
+                      console.log('Cockpit.js useEffect');
+                      
+                   //   setTimeout(() => {
+                   //     alert('Saved data to cloud!');
+                    //  }, 1000);
+                    toglebtn.current.click();
+                      return () => {
+                        console.log('Cockpit.js cleanup work in useEffect');
+                      };
+                    }, []);
+                  
+
+    useEffect(() => {
+                  console.log('Cockpit.js 2nd useEffect');
+                  return () => {
+                    console.log('Cockpit.js cleanup work in 2nd useEffect');
+                  };
+                });
+    
+
+
+
 
 let btnclass =[classes.Button]
 if(props.show){
-                btnclass.push(classes.Red);
-             }
+           btnclass.push(classes.Red);
+          }
 let clas=[]
-if(props.persons.length <=2){
+
+if(props.personLength <=2){
                             clas.push(classes.red);
                             }
-if(props.persons.length <2){
+if(props.personLength <2){
                             clas.push(classes.bold);
                             }
 
 return(
         <div> 
-            <h1>Hi, React App</h1>
+            <h1>Persons Details</h1>
             <p className={clas.join(" ")}>The conditional styling</p>
             <button className={btnclass.join(" ")}
-            onClick={()=> props.clicked("jovitta")}>Switch names</button>
+            ref={toglebtn}
+            onClick={props.clicked}>Switch names</button>
         </div>
     );
 }
 
-export default Cockpit;
+export default React.memo(cockpit);

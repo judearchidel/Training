@@ -2,30 +2,46 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
+
 
 
 
 class App extends Component {
+  constructor(props){
+    super(props);
+  
+  console.log("App.js constructor");
+  }
   state ={
           persons: [
-            {
-              id: "12ad",
-              name: 'max', 
-              age : 28
-            },
-            {
-              id: "1asd",
-              name: 'jude',
-              age: 67
-            },
-            {
-              id: "123ae",
-              name: 'jovi',
-              age: 27
-            }
-          ],
-          showpersons: false
+            {id: "12ad", name: 'max',age : 28},
+            {id: "1asd",name: 'jude', age: 67},
+            {id: "123ae", name: 'jovi',age: 27}
+                  ],
+          showpersons: false,
+          showCockpit: true
   }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('App.js getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount(){
+    console.log("app.js componentsDidMount");
+  }
+
+  shouldComponentUpdate(nextprops,nextstate){
+    console.log("app.js shouldcomponentupdate");
+    return true;
+  }
+
+  componentDidUpdate(){
+    console.log("app.js componentdidupdate");
+  }
+
 
   removePersonHandler =(index)=>{
                                   let person = [...this.state.persons];
@@ -63,16 +79,22 @@ class App extends Component {
       }
 
       return (
-              <div className={classes.App}>
-              <Cockpit persons={this.state.persons} 
-              show={this.state.showpersons} 
-              clicked={this.toggleDivHandler}></Cockpit>
-               {person}
+              <Aux>
+                  <button
+                  onClick={() => {
+                    this.setState({ showCockpit: false });}}>
+                  Remove Cockpit
+                  </button>
+                  {this.state.showCockpit ? <Cockpit personLength={this.state.persons.length} 
+                  clicked={this.toggleDivHandler}>
+                  </Cockpit>: null
+                  }
+                  {person}
 
-               </div>
+               </Aux>
       );
     //return React.createElement('div',{className: 'App'},React.createElement('h1',null,'Does this work'));
   }
 }
 
-export default App;
+export default withClass(App,classes.App);
