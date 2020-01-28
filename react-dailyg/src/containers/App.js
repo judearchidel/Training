@@ -4,6 +4,7 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Aux';
+import AuthContext from '../Contex/Authcontext';
 
 
 
@@ -21,26 +22,27 @@ class App extends Component {
             {id: "123ae", name: 'jovi',age: 27}
                   ],
           showpersons: false,
-          showCockpit: true
+          showCockpit: true,
+          authenticated: false
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log('App.js getDerivedStateFromProps', props);
-    return state;
-  }
+                                        console.log('App.js getDerivedStateFromProps', props);
+                                        return state;
+                                      }
 
   componentDidMount(){
-    console.log("app.js componentsDidMount");
-  }
+                      console.log("app.js componentsDidMount");
+                    }
 
   shouldComponentUpdate(nextprops,nextstate){
-    console.log("app.js shouldcomponentupdate");
-    return true;
-  }
+                                    console.log("app.js shouldcomponentupdate");
+                                    return true;
+                                  }
 
   componentDidUpdate(){
-    console.log("app.js componentdidupdate");
-  }
+                        console.log("app.js componentdidupdate");
+                      }
 
 
   removePersonHandler =(index)=>{
@@ -68,6 +70,10 @@ class App extends Component {
                               showpersons: !chagevar
                             });
     }
+
+    loginHandler = () => {
+                          this.setState({ authenticated: true });
+                        };
   
     render() {
       let person = null;
@@ -85,12 +91,16 @@ class App extends Component {
                     this.setState({ showCockpit: false });}}>
                   Remove Cockpit
                   </button>
-                  {this.state.showCockpit ? <Cockpit personLength={this.state.persons.length} 
-                  clicked={this.toggleDivHandler}>
-                  </Cockpit>: null
-                  }
-                  {person}
-
+                  <AuthContext.Provider value={{
+                                        authenticated: this.state.authenticated,
+                                        login: this.loginHandler
+                                      }}>
+                      {this.state.showCockpit ? <Cockpit personLength={this.state.persons.length} 
+                      clicked={this.toggleDivHandler}>
+                      </Cockpit>: null
+                      }
+                      {person}
+                  </AuthContext.Provider>
                </Aux>
       );
     //return React.createElement('div',{className: 'App'},React.createElement('h1',null,'Does this work'));
